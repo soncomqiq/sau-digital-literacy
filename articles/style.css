@@ -196,6 +196,12 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
+    position:relative;
+    background:#fff;
+    transition: box-shadow .2s, transform .15s;
+}
+.answer-card:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
 }
 .answer-card h2 {
     margin-top: 0;
@@ -225,4 +231,14 @@ body {
     margin-top: 15px;
     padding-top: 10px;
     border-top: 1px solid #eee;
+}
+.highlight {
+    outline: 3px solid #1a237e;
+    box-shadow: 0 0 0 4px rgba(26,35,126,0.2);
+}
+
+@media print {
+  body { background:#fff; }
+  .answer-card { box-shadow:none !important; border:1px solid #999; }
+  a { color:#000; text-decoration:none; }
 }

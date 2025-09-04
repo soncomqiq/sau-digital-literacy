@@ -40,6 +40,7 @@
             margin-bottom: 15px;
             border-radius: 8px;
             transition: transform 0.2s, box-shadow 0.2s;
+            position:relative;
         }
         .article-list li:hover {
             transform: translateY(-5px);
@@ -55,20 +56,55 @@
         }
         .answer-link {
             display: block;
-            width: 200px;
-            margin: 40px auto 20px;
+            width: 260px;
+            margin: 40px auto 10px;
             padding: 15px;
             background-color: #28a745;
             color: white;
             text-align: center;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
             transition: background-color 0.3s;
         }
         .answer-link:hover {
             background-color: #218838;
+        }
+        .expanded-link {
+            background:#1a237e;
+        }
+        .expanded-link:hover {
+            background:#14205e;
+        }
+        .badge {
+            position:absolute;
+            top:8px;
+            right:8px;
+            font-size:0.65rem;
+            padding:4px 8px;
+            border-radius:12px;
+            letter-spacing:.5px;
+            font-weight:700;
+            color:#fff;
+            display:none;
+        }
+        .badge-true {
+            background:#2e7d32;
+        }
+        .badge-false {
+            background:#c62828;
+        }
+        .note-legend {
+            text-align:center;
+            font-size:0.75em;
+            color:#555;
+            margin-top:6px;
+        }
+        @media print {
+            .answer-link, .expanded-link, .note-legend {
+                display:none !important;
+            }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,28 +130,28 @@
             </p>
         </div>
         
-        <ul class="article-list">
-            <li><a href="articles/article1.html">ข่าวที่ 1: ChatGPT เปลืองไฟฟ้ามากกว่า Google 10 เท่า</a></li>
-            <li><a href="articles/article2.html">ข่าวที่ 2: วัคซีนไข้หวัดใหญ่ทำให้ภูมิคุ้มกันแย่ลง</a></li>
-            <li><a href="articles/article3.html">ข่าวที่ 3: A.I. ยอมโกหก/ซ่อนตัว ป้องกันการถูกปิด</a></li>
-            <li><a href="articles/article4.html">ข่าวที่ 4: เขย่าลูก อันตราย</a></li>
-            <li><a href="articles/article5.html">ข่าวที่ 5: เลี้ยงหมา-แมว ยิ่งทำให้โลกร้อน</a></li>
-            <li><a href="articles/article6.html">ข่าวที่ 6: ไข้เลือดออกระบาดเพราะยุงลายกลายพันธุ์</a></li>
-            <li><a href="articles/article7.html">ข่าวที่ 7: หินดวงจันทร์ของจีนและสหรัฐฯ มาจากดาวคนละดวง</a></li>
-            <li><a href="articles/article8.html">ข่าวที่ 8: กระโดดบนดวงจันทร์ ต้องไม่ตกลงมายืนที่จุดเดิม</a></li>
-            <li><a href="articles/article9.html">ข่าวที่ 9: สหรัฐฯ ร่างกฎหมายห้ามควบคุม A.I. นาน 10 ปี</a></li>
-            <li><a href="articles/article10.html">ข่าวที่ 10: สหรัฐฯ คือชาติเดียวในโลกที่ให้สัญชาติเด็กต่างด้าวเกิดในประเทศ</a></li>
+        <ul class="article-list" id="articleList">
+            <li data-id="1"><a href="articles/article1.html">ข่าวที่ 1: ChatGPT เปลืองไฟฟ้ามากกว่า Google 10 เท่า</a><span class="badge badge-true">TRUE</span></li>
+            <li data-id="2"><a href="articles/article2.html">ข่าวที่ 2: วัคซีนไข้หวัดใหญ่ทำให้ภูมิคุ้มกันแย่ลง</a><span class="badge badge-false">FALSE</span></li>
+            <li data-id="3"><a href="articles/article3.html">ข่าวที่ 3: A.I. ยอมโกหก/ซ่อนตัว ป้องกันการถูกปิด</a><span class="badge badge-true">TRUE</span></li>
+            <li data-id="4"><a href="articles/article4.html">ข่าวที่ 4: เขย่าลูก อันตราย</a><span class="badge badge-true">TRUE</span></li>
+            <li data-id="5"><a href="articles/article5.html">ข่าวที่ 5: เลี้ยงหมา-แมว ยิ่งทำให้โลกร้อน</a><span class="badge badge-false">FALSE</span></li>
+            <li data-id="6"><a href="articles/article6.html">ข่าวที่ 6: ไข้เลือดออกระบาดเพราะยุงลายกลายพันธุ์</a><span class="badge badge-false">FALSE</span></li>
+            <li data-id="7"><a href="articles/article7.html">ข่าวที่ 7: หินดวงจันทร์ของจีนและสหรัฐฯ มาจากดาวคนละดวง</a><span class="badge badge-false">FALSE</span></li>
+            <li data-id="8"><a href="articles/article8.html">ข่าวที่ 8: กระโดดบนดวงจันทร์ ต้องไม่ตกลงมายืนที่จุดเดิม</a><span class="badge badge-false">FALSE</span></li>
+            <li data-id="9"><a href="articles/article9.html">ข่าวที่ 9: สหรัฐฯ ร่างกฎหมายห้ามควบคุม A.I. นาน 10 ปี</a><span class="badge badge-true">TRUE</span></li>
+            <li data-id="10"><a href="articles/article10.html">ข่าวที่ 10: สหรัฐฯ คือชาติเดียวในโลกที่ให้สัญชาติเด็กต่างด้าวเกิดในประเทศ</a><span class="badge badge-false">FALSE</span></li>
         </ul>
-        <a href="#" class="answer-link" onclick="confirmAccess(event)">ดูเฉลยทั้งหมด (ห้ามเข้าจนกว่าจะครูจะอนุญาต)</a>
+        <a href="#" class="answer-link expanded-link" onclick="confirmAccessExpanded(event)">ดูเฉลยฉบับละเอียด</a>
+        <div class="note-legend">หมายเหตุ: ป้าย TRUE / FALSE ซ่อนไว้จนกว่าจะเปิดโหมดเฉลย</div>
     </div>
     
     <script>
         function confirmAccess(event) {
-            event.preventDefault(); // ป้องกันการเข้าลิงก์ทันที
-            
+            event.preventDefault();
             const isConfirmed = confirm(
                 "⚠️ คำเตือน ⚠️\n\n" +
-                "คุณแน่ใจแล้วใช่ไหมว่าครูอนุญาตให้ดูเฉลยแล้ว?\n\n" +
+                "คุณแน่ใจแล้วใช่ไหมว่าครูอนุญาตให้ดูเฉลยสั้นแล้ว?\n\n" +
                 "กด OK เพื่อเข้าดูเฉลย หรือ Cancel เพื่อยกเลิก"
             );
             
@@ -125,6 +161,22 @@
             }
             // ถ้าไม่ยืนยัน จะไม่ทำอะไร (อยู่หน้าเดิม)
         }
+        function confirmAccessExpanded(event) {
+            event.preventDefault();
+            const isConfirmed = confirm(
+                "⚠️ คำเตือน ⚠️\n\n" +
+                "คุณแน่ใจแล้วใช่ไหมว่าครูอนุญาตให้ดูเฉลยฉบับละเอียดแล้ว?\n\n" +
+                "กด OK เพื่อเข้าดูเฉลย หรือ Cancel เพื่อยกเลิก"
+            );
+            
+            if (isConfirmed) {
+                // ถ้ายืนยันแล้ว ให้เข้าหน้าเฉลยขยาย
+                window.location.href = "answer_expanded.html";
+            }
+            // ถ้าไม่ยืนยัน จะไม่ทำอะไร (อยู่หน้าเดิม)
+        }
+        // Future toggle to reveal badges (teacher mode)
+        // document.querySelectorAll('.badge').forEach(b=> b.style.display='inline-block');
     </script>
 </body>
 </html>
